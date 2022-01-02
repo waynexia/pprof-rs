@@ -245,6 +245,13 @@ impl<T: Hash + Eq + Default + Debug + 'static> Collector<T> {
             temp_array: TempFdArray::<Entry<T>>::new()?,
         })
     }
+
+    pub(crate) fn reset(&mut self) -> std::io::Result<()> {
+        self.map = HashCounter::default();
+        self.temp_array = TempFdArray::<Entry<T>>::new()?;
+
+        Ok(())
+    }
 }
 
 impl<T: Hash + Eq + 'static> Collector<T> {

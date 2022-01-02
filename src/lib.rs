@@ -45,6 +45,8 @@ pub const MAX_DEPTH: usize = 32;
 pub const MAX_THREAD_NAME: usize = 16;
 
 mod collector;
+#[cfg(feature = "protobuf")]
+mod continuous;
 mod error;
 mod frames;
 mod profiler;
@@ -52,6 +54,10 @@ mod report;
 mod timer;
 
 pub use self::collector::{Collector, HashCounter};
+#[cfg(feature = "protobuf")]
+pub use self::continuous::{
+    ContinuousProfilerGuard, ContinuousProfilerGuardBuilder, GuardJoinHandle,
+};
 pub use self::error::{Error, Result};
 pub use self::frames::{Frames, Symbol};
 pub use self::profiler::{ProfilerGuard, ProfilerGuardBuilder};

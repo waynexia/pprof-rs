@@ -140,6 +140,21 @@ impl ProfilerGuard<'_> {
             self.timer.as_ref().map(Timer::timing).unwrap_or_default(),
         )
     }
+
+    /// Reset profiler
+    pub(crate) fn reset(&self) -> Result<()> {
+        match self.profiler.write().as_mut() {
+            Err(err) => {
+                log::error!("Error in resetting profiler: {}", err);
+                Err(Error::CreatingError)
+            }
+            Ok(profiler) => {
+                profiler.data.reset()?;
+                profiler.sample_counter = 0;
+                Ok(())
+            }
+        }
+    }
 }
 
 impl<'a> Drop for ProfilerGuard<'a> {
